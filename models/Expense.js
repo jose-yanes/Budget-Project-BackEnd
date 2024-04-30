@@ -8,13 +8,9 @@ const ExpenseSchema = new mongoose.Schema({
     },
     date: {
         type: String,
-        default: function() {
-            const date = new Date();
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const year = date.getFullYear();
-            return `${day}/${month}/${year}`;
-        }
+        required: [true, "Please provide date DD/MM/YYYY"],
+        minlength: 10,
+        maxlength: 10
     },
     category: {
         type: String,
@@ -23,11 +19,13 @@ const ExpenseSchema = new mongoose.Schema({
     },
     month: {
         type: String,
-        default: function() {
-            const date = new Date();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            return month;
-        }
+        minlength: 2,
+        maxlength: 2,
+    },
+    year: {
+        type: String,
+        minlength: 4,
+        maxlength: 4,
     }
 })
 
