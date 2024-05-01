@@ -29,4 +29,8 @@ const ExpenseSchema = new mongoose.Schema({
     }
 })
 
+ExpenseSchema.pre("save", function (){
+    this.category = this.category.toLowerCase()
+})
+
 module.exports = mongoose.model("Expense",ExpenseSchema);

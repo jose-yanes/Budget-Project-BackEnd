@@ -29,18 +29,43 @@ const createExpense = async ( req, res ) => {
 
 //Delete expense
 
-//Get Expense
+const deleteExpense = async ( req, res ) => {
+
+    const toDelete = req.body._id;
+
+    try{
+        const expenseDeleted = await Expense.findByIdAndDelete(toDelete);
+        res.status(StatusCodes.OK).json({expenseDeleted});   
+    } catch ( err ) {
+        res.status(StatusCodes.BAD_REQUEST).json({ msg: err.message })
+    }
+}
+
+//Get Expense by Filter
+
+const getFilteredExpenses = async ( req, res) => {
+    const filters = req.body.filters;
+    console.log(filters);
+    // const filteredExpenses = await Expense.find({ category : "tuper"})
+    const filteredExpenses = await Expense.find(filters)
+
+    console.log(filteredExpenses)
+    res.send(filteredExpenses);
+
+}
 
 //Get All Expenses
 
 const getAllExpenses = async ( req, res ) => {
     const expensesFound = await Expense.find()
-    res.status(StatusCodes.OK).json({expensesFound, count: expensesFound.length})
+    res.status(StatusCodes.OK).json({count: expensesFound.length, expensesFound })
 }
 
 module.exports = {
     createExpense,
-    getAllExpenses
+    getAllExpenses,
+    deleteExpense,
+    getFilteredExpenses
 }
 
 
